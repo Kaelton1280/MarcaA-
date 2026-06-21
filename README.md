@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MarcaAí ✂️
 
-## Getting Started
+Plataforma SaaS de agendamento online para barbearias, salões de beleza e profissionais da estética.
 
-First, run the development server:
+## Funcionalidades
+
+- **Agendamento público** — link personalizado para os clientes agendarem sem precisar de conta
+- **Gestão de profissionais** — cadastro da equipe com foto de perfil e especialidade
+- **Gestão de serviços** — catálogo de serviços com duração e preço
+- **Agenda** — visualização dos agendamentos do dia
+- **Clientes** — histórico de clientes
+- **Lembretes via WhatsApp** — notificações automáticas antes do horário marcado (Z-API)
+- **Link personalizado** — URL amigável para compartilhar com clientes
+
+## Stack
+
+- [Next.js](https://nextjs.org/) — framework fullstack (App Router)
+- [Supabase](https://supabase.com/) — autenticação e armazenamento de imagens
+- [Prisma](https://www.prisma.io/) — ORM com PostgreSQL
+- [Tailwind CSS](https://tailwindcss.com/) — estilização
+- [Z-API](https://www.z-api.io/) — envio de lembretes via WhatsApp
+- [Vercel](https://vercel.com/) — hospedagem
+
+## Configuração local
+
+### Pré-requisitos
+
+- Node.js 20+
+- Conta no [Supabase](https://supabase.com/)
+
+### Instalação
+
+```bash
+git clone https://github.com/Kaelton1280/MarcaA-.git
+cd MarcaA-
+npm install
+```
+
+### Variáveis de ambiente
+
+Crie um arquivo `.env.local` na raiz do projeto:
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Banco de dados
+DATABASE_URL=
+DIRECT_URL=
+
+# Z-API (WhatsApp)
+ZAPI_INSTANCE_ID=
+ZAPI_TOKEN=
+
+# Cron
+CRON_SECRET=
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Banco de dados
+
+```bash
+npx prisma db push
+```
+
+### Rodar localmente
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O projeto está configurado para deploy na Vercel. Basta conectar o repositório e configurar as variáveis de ambiente no painel.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Desenvolvido por [Kaelton Dias](https://github.com/Kaelton1280)
