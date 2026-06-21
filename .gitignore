@@ -42,3 +42,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# rascunhos de posts (não vão para o repositório)
+linkedin-post.md
+linkedin-projeto.md
+post-comunidade.md
