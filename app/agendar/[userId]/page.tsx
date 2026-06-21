@@ -7,14 +7,16 @@ export default async function PublicBookingPage({
 }: {
   params: Promise<{ userId: string }>
 }) {
-  const { userId } = await params
+  const { userId: param } = await params
 
-  const professional = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { name: true, email: true, salonName: true },
+  const professional = await prisma.user.findFirst({
+    where: { OR: [{ slug: param }, { id: param }] },
+    select: { id: true, name: true, email: true, salonName: true },
   })
 
   if (!professional) notFound()
+
+  const userId = professional.id
 
   const [services, staffMembers] = await Promise.all([
     prisma.service.findMany({

@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   if (!user) redirect('/login')
 
-  await prisma.user.upsert({
+  const dbUser = await prisma.user.upsert({
     where: { id: user.id },
     create: {
       id: user.id,
@@ -29,9 +29,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
       name: (user.user_metadata?.name as string) ?? null,
     },
     update: { email: user.email! },
+    select: { slug: true },
   })
 
-  const copyLinkUrl = `${process.env.NEXT_PUBLIC_APP_URL}/agendar/${user.id}`
+  const slugOrId = dbUser.slug ?? user.id
+  const copyLinkUrl = `${process.env.NEXT_PUBLIC_APP_URL}/agendar/${slugOrId}`
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">

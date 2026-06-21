@@ -12,6 +12,7 @@ model User {
   name       String?
   phone      String?
   salonName  String?
+  slug       String?  @unique
   createdAt  DateTime @default(now())
 
   services     Service[]

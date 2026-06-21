@@ -10,7 +10,7 @@ export default async function ConfiguracoesPage() {
 
   const profile = await prisma.user.findUnique({
     where: { id: user.id },
-    select: { name: true, salonName: true, phone: true, email: true },
+    select: { name: true, salonName: true, phone: true, email: true, slug: true },
   })
 
   return (
@@ -26,7 +26,9 @@ export default async function ConfiguracoesPage() {
         initialName={profile?.name ?? ''}
         initialSalonName={profile?.salonName ?? ''}
         initialPhone={profile?.phone ?? ''}
+        initialSlug={profile?.slug ?? ''}
         email={profile?.email ?? user.email ?? ''}
+        appUrl={process.env.NEXT_PUBLIC_APP_URL ?? ''}
       />
     </div>
   )
