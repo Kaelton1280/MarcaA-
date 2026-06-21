@@ -1,0 +1,93 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         String   @id
+  email      String   @unique
+  name       String?
+  phone      String?
+  salonName  String?
+  createdAt  DateTime @default(now())
+
+  services     Service[]
+  clients      Client[]
+  appointments Appointment[]
+  subscription Subscription?
+  staffMembers Staff[]
+}
+
+model Staff {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  specialty String?
+  avatarUrl String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  appointments Appointment[]
+}
+
+model Subscription {
+  id                  String    @id @default(cuid())
+  userId              String    @unique
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status              String    @default("trial")
+  asaasCustomerId     String?
+  asaasSubscriptionId String?
+  trialEndsAt         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Service {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  duration  Int
+  price     Decimal  @db.Decimal(10, 2)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  appointments Appointment[]
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointments Appointment[]
+}
+
+model Appointment {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientId     String
+  client       Client   @relation(fields: [clientId], references: [id])
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id])
+  startsAt     DateTime
+  endsAt       DateTime
+  staffId         String?
+  staff           Staff?   @relation(fields: [staffId], references: [id])
+  status          String   @default("scheduled")
+  notes           String?
+  reminderSent    Boolean  @default(false)
+  reminder2hSent  Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
