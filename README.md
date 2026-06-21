@@ -1,5 +1,7 @@
 # MarcaAí ✂️
 
+**Acesse:** [marca-a-snowy.vercel.app](https://marca-a-snowy.vercel.app)
+
 Plataforma SaaS de agendamento online para barbearias, salões de beleza e profissionais da estética.
 
 ## Funcionalidades
