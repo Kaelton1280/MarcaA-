@@ -16,10 +16,12 @@ type ModalState = { mode: 'closed' } | { mode: 'create' } | { mode: 'edit'; clie
 
 function formatPhone(v: string) {
   const digits = v.replace(/\D/g, '').slice(0, 11)
+  const isCell = digits.length > 10
+
   if (digits.length <= 2) return digits
-  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
-  if (digits.length <= 11) return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
-  return digits
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
+  if (isCell) return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`
 }
 
 function getInitials(name: string) {
@@ -36,10 +38,11 @@ export function ClientesTable({ clientes }: { clientes: Cliente[] }) {
   const [formError, setFormError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
 
+  const searchDigits = search.replace(/\D/g, '')
   const filtered = clientes.filter(
     (c) =>
       c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.phone.includes(search),
+      (searchDigits.length > 0 && c.phone.replace(/\D/g, '').includes(searchDigits)),
   )
 
   function openCreate() {
@@ -62,12 +65,16 @@ export function ClientesTable({ clientes }: { clientes: Cliente[] }) {
     setFormError(null)
 
     startTransition(async () => {
-      if (modal.mode === 'create') {
-        await createCliente({ name, phone, notes })
-      } else if (modal.mode === 'edit') {
-        await updateCliente(modal.cliente.id, { name, phone, notes })
+      try {
+        if (modal.mode === 'create') {
+          await createCliente({ name, phone, notes })
+        } else if (modal.mode === 'edit') {
+          await updateCliente(modal.cliente.id, { name, phone, notes })
+        }
+        close()
+      } catch (err) {
+        setFormError(err instanceof Error ? err.message : 'Erro ao salvar. Tente novamente.')
       }
-      close()
     })
   }
 
@@ -139,7 +146,7 @@ export function ClientesTable({ clientes }: { clientes: Cliente[] }) {
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border py-16 text-center">
-          <p className="font-medium text-foreground">Nenhum resultado para "{search}"</p>
+          <p className="font-medium text-foreground">Nenhum resultado para &quot;{search}&quot;</p>
           <p className="text-sm text-muted-foreground">Tente outro nome ou número.</p>
         </div>
       ) : (

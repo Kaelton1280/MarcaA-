@@ -69,7 +69,7 @@ export function PerfilForm({
             />
             <p className="text-xs text-muted-foreground">
               Este nome aparece no topo da página de agendamento dos clientes.
-              Se não preencher, aparece "MarcaAí".
+              Se não preencher, aparece &quot;MarcaAí&quot;.
             </p>
           </div>
 
