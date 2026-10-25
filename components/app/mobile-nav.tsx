@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { CopyLinkButton } from '@/components/app/copy-link-button'
 import { LogoutButton } from '@/components/app/logout-button'
 
-const navItems = [
+const navItems = [ // Adicione os itens de navegação aqui
   { href: '/agenda', label: 'Agenda' },
   { href: '/profissionais', label: 'Profissionais' },
   { href: '/clientes', label: 'Clientes' },
@@ -14,7 +14,7 @@ const navItems = [
   { href: '/configuracoes', label: 'Configurações' },
 ]
 
-export function MobileNav({
+export function MobileNav({ // Adicione as props necessárias aqui
   email,
   copyLinkUrl,
 }: {
